@@ -64,13 +64,13 @@ class Option_menu_model(Display, Sounds):
             self.picked_color = deselected_color
         self.pre_render()
 
-    def update_options(self, options, next_list = None):
+    def update_options(self, options, next_list = None, images=None):
         """
             Updates the list of options and optionally the next list
         """
-        
         self.options = options
         self.next_list = next_list
+        self.images=images
         self.pre_render()
 
     def draw_vertical_options(self):
@@ -170,7 +170,7 @@ class Option_menu_model(Display, Sounds):
             if self.selected_index-3 < index < self.selected_index:
                 if index == self.picked_index:
                     selected_render = self.rendered["picked"][index]
-                    selected_render[1].midbottom = (
+                    option[1].midbottom = selected_render[1].midbottom = (
                         self.from_left, 
                         self.from_top - (self.selected_index-index)*self.spacer
                     )
@@ -184,7 +184,7 @@ class Option_menu_model(Display, Sounds):
             elif index == self.selected_index:
                 if index == self.picked_index:
                     selected_render = self.rendered["picked"][index]
-                    selected_render[1].midbottom = (
+                    option[1].midbottom = selected_render[1].midbottom = (
                         self.from_left, 
                         self.from_top
                     )
@@ -199,7 +199,7 @@ class Option_menu_model(Display, Sounds):
             elif self.selected_index < index < self.selected_index+3:
                 if index == self.picked_index:
                     selected_render = self.rendered["picked"][index]
-                    selected_render[1].midbottom = (
+                    option[1].midbottom = selected_render[1].midbottom = (
                         self.from_left, 
                         self.from_top + (index-self.selected_index)*self.spacer
                     )
@@ -251,8 +251,17 @@ class Option_menu_model(Display, Sounds):
     def draw_only_active_option(self):
         for index, option in enumerate(self.rendered["selected"]):
             if index == self.selected_index:
+                if bool(self.images):
+                    self.screen.blit(
+                        self.images[index],
+                        (
+                            self.from_left,
+                            self.from_top
+                        )
+                    )
                 selected_render = self.rendered["selected"][index]
-                selected_render[1].center = option[1].center
+                selected_render[1].center = (
+                    self.from_left, self.from_top - self.width*0.3)
                 self.screen.blit(selected_render[0], selected_render[1])
 
     def get_event_vertical(self, event):

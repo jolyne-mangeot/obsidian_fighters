@@ -26,7 +26,7 @@ class Launch_menu_display(Game_menues_display):
             self.width*0.5, self.height*0.36, self.height*0.09
         )
         self.launch_battle_menu_variables : tuple = (
-            self.width*0.5, self.height*0.5, self.height*0.1
+            self.width*0.5, self.height*0.7, self.height*0.1
         )
         self.save_menu_variables : tuple = (
             self.width*0.5, self.height*0.44, self.height*0.09
@@ -86,6 +86,10 @@ class Launch_menu_display(Game_menues_display):
             image = pg.image.load(
                 self.GRAPHICS_PATH+"biomes variants/"+\
                     "launch_"+biome+"_box.png"
+            )
+            image = pg.transform.scale(
+                image,
+                (self.width*0.50, self.height*0.6)
             )
             images.append(image)
         return images
@@ -166,7 +170,7 @@ class Launch_menu_display(Game_menues_display):
             self.width*0.032,self.width*0.5,
             self.height*0.3,"midbottom", (0,0,0),True
         )
-        self.launch_battle_menu.draw_list_options()
+        self.launch_battle_menu.draw_only_active_option()
     
     def draw_pokedex_menu(self):
         self.draw_pokedex_background()
