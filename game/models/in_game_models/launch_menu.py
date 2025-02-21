@@ -25,6 +25,9 @@ class Launch_menu(
         Models_controller.__init__(self)
         self.back = "title_menu"
         self.focused_pokemon = None
+        self.init_config()
+        self.init_in_launch_config()
+        self.init_game_menu_sounds()
     
     def init_in_launch_config(self):
         self.options_menu_event_dict = {
@@ -54,19 +57,16 @@ class Launch_menu(
         """
            Initializes all menu-related configurations and settings.
         """
-        self.init_config()
-        self.init_in_launch_config()
+        # if not self.previous == "new_game" and\
+        #         not self.previous == "load_menu":
         self.init_launch_menu_display()
         self.check_game_status()
         self.update_options()
-        self.init_game_menu_sounds()
-        if not self.previous == "new_game" or\
-                not self.previous == "load_menu":
-            now_time = datetime.now()
-            if 9 > int(now_time.strftime("%H")) > 17:
-                self.music_channel.play(self.launch_menu_musics_dict["launch_menu"], -1)
-            else:
-                self.music_channel.play(self.launch_menu_musics_dict["launch_menu_night"], -1)
+        now_time = datetime.now()
+        if 9 > int(now_time.strftime("%H")) > 17:
+            self.music_channel.play(self.launch_menu_musics_dict["launch_menu"], -1)
+        else:
+            self.music_channel.play(self.launch_menu_musics_dict["launch_menu_night"], -1)
         self.pressed_keys = None
         self.focused_found = False
 
@@ -98,7 +98,7 @@ class Launch_menu(
         battle_biome = self.player_pokedex.battle_biomes[
             list(self.player_pokedex.battle_biomes.keys())[self.launch_battle_menu.selected_index]
         ]
-        enemy_entry = random.choice(battle_biome["pokemons"])
+        enemy_entry = random.choice(battle_biome["spawnable pokemons"])
         if self.focused_pokemon != None:
             if random.randint(0,100) > 60:
                 enemy_entry = self.focused_pokemon

@@ -28,13 +28,13 @@ class In_battle_display(Game_menues_display):
         self.init_root_variables_in_game()
 
         self.battle_stage_menu_variables : tuple = (
-            self.width*0.8, self.height*0.706, 42
+            self.width*0.8, self.height*0.706, self.height*0.06
         )
         self.confirm_menu_variables : tuple = (
-            self.width*0.8, self.height*0.83, 42
+            self.width*0.8, self.height*0.83, self.height*0.07
         )
         self.display_team_variables : tuple = (
-            self.width*0.3, self.height*0.74, 30
+            self.width*0.3, self.height*0.74, self.height*0.05
         )
         self.game_dialog_variables : tuple =(
             self.width*0.024,
@@ -116,7 +116,13 @@ class In_battle_display(Game_menues_display):
                 self.dialogs["items"],
                 self.dialogs["run away"]
             ],
-            ["", "", "display_team", "display_items", "run_away"],
+            ["select_attacks", "", "display_team", "display_items", "run_away"],
+            deselected_color=(0,0,0),
+            selected_color=(48,84,109)
+        )
+        self.battle_attack_menu = Option_menu_model(
+            self.battle_stage_menu_variables,
+            *self.init_render_option_attack_menu(),
             deselected_color=(0,0,0),
             selected_color=(48,84,109)
         )
@@ -145,6 +151,21 @@ class In_battle_display(Game_menues_display):
             deselected_color=(255,255,255),
             selected_color=(248,232,0)
         )
+    
+    def init_render_option_attack_menu(self):
+        battle_attack_next_list : list = self.battle.active_pokemon.type.copy()
+        if len(battle_attack_next_list) == 1:
+            battle_attack_options : list = [self.dialogs[battle_attack_next_list[0]]]
+            battle_attack_options.append("")
+            battle_attack_next_list.append("")
+        else:
+            battle_attack_options : list = [
+                self.dialogs[battle_attack_next_list[0]],
+                self.dialogs[battle_attack_next_list[1]]
+            ]
+        battle_attack_options.append(self.dialogs["back"])
+        battle_attack_next_list.append("back")
+        return battle_attack_options, battle_attack_next_list
 
     def enemy_pokemon_load(self):
         """
@@ -263,6 +284,9 @@ class In_battle_display(Game_menues_display):
                     *self.game_dialog_variables
                 )
                 self.battle_stage_menu.draw_vertical_options()
+            case "select_attacks":
+                self.draw_action_box()
+                self.battle_attack_menu.draw_vertical_options()
             case "run_away":
                 self.blit_dialog(
                     self.dialogs["run away proceed"],

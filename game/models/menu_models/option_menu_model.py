@@ -129,9 +129,9 @@ class Option_menu_model(Display, Sounds):
         """
         for index, option in enumerate(self.rendered["deselected"]):
             if len(self.rendered["deselected"]) == 2:
-                option[1].center = (self.screen_rect.centerx-50 + index*100, self.from_top)
+                option[1].center = (self.width/3 + index*self.width/3, self.from_top)
             else:
-                option[1].center = (self.screen_rect.centerx-200 + index*200, self.from_top)
+                option[1].center = (self.width*0.25 + index*self.width*0.25, self.from_top)
             if index == self.selected_index:
                 if bool(self.picked_index):
                     if self.selected_index == self.picked_index:
@@ -159,6 +159,7 @@ class Option_menu_model(Display, Sounds):
                 self.screen.blit(selected_render[0], selected_render[1])
             else:
                 self.screen.blit(option[0],option[1])
+
 
 
     def draw_picked_list_options(self):
@@ -270,12 +271,12 @@ class Option_menu_model(Display, Sounds):
         """
         if event.type == pg.KEYDOWN:
             if pg.key.name(event.key) in self.up_keys:
-                self.effects_channel.play(self.menues_sounds["cursor move"])
+                self.menu_effects_channel.play(self.menues_sounds["cursor move"])
                 self.change_selected_option(-1)
                 while self.options[self.selected_index] == "":
                     self.change_selected_option(-1)
             elif pg.key.name(event.key) in self.down_keys:
-                self.effects_channel.play(self.menues_sounds["cursor move"])
+                self.menu_effects_channel.play(self.menues_sounds["cursor move"])
                 self.change_selected_option(1)
                 while self.options[self.selected_index] == "":
                     self.change_selected_option(1)
@@ -286,12 +287,12 @@ class Option_menu_model(Display, Sounds):
         """
         if event.type == pg.KEYDOWN:
             if pg.key.name(event.key) in self.left_keys:
-                self.effects_channel.play(self.menues_sounds["cursor move"])
+                self.menu_effects_channel.play(self.menues_sounds["cursor move"])
                 self.change_selected_option(-1)
                 while self.options[self.selected_index] == "":
                     self.change_selected_option(-1)
             elif pg.key.name(event.key) in self.right_keys:
-                self.effects_channel.play(self.menues_sounds["cursor move"])
+                self.menu_effects_channel.play(self.menues_sounds["cursor move"])
                 self.change_selected_option(1)
                 while self.options[self.selected_index] == "":
                     self.change_selected_option(1)
@@ -299,22 +300,22 @@ class Option_menu_model(Display, Sounds):
     def get_event_chart(self, event):
         if event.type == pg.KEYDOWN:
             if pg.key.name(event.key) in self.up_keys:
-                self.effects_channel.play(self.menues_sounds["cursor move"])
+                self.menu_effects_channel.play(self.menues_sounds["cursor move"])
                 self.change_selected_option(-2)
                 while self.options[self.selected_index] == "":
                     self.change_selected_option(-2)
             elif pg.key.name(event.key) in self.down_keys:
-                self.effects_channel.play(self.menues_sounds["cursor move"])
+                self.menu_effects_channel.play(self.menues_sounds["cursor move"])
                 self.change_selected_option(2)
                 while self.options[self.selected_index] == "":
                     self.change_selected_option(2)
             elif pg.key.name(event.key) in self.left_keys:
-                self.effects_channel.play(self.menues_sounds["cursor move"])
+                self.menu_effects_channel.play(self.menues_sounds["cursor move"])
                 self.change_selected_option(-1)
                 while self.options[self.selected_index] == "":
                     self.change_selected_option(-1)
             elif pg.key.name(event.key) in self.right_keys:
-                self.effects_channel.play(self.menues_sounds["cursor move"])
+                self.menu_effects_channel.play(self.menues_sounds["cursor move"])
                 self.change_selected_option(1)
                 while self.options[self.selected_index] == "":
                     self.change_selected_option(1)
