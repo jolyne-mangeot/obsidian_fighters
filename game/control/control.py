@@ -34,6 +34,10 @@ class Control(Settings):
         Control.screen = pg.display.set_mode(
             (self.screen_width, self.screen_height)
         )
+        launching_screen = pg.image.load("game/assets/graphics/media/loading_screen.png")
+        launching_screen = pg.transform.scale(launching_screen, (self.screen_width, self.screen_height))
+        Control.screen.blit(launching_screen, (0,0))
+        pg.display.update()
         Control.clock = pg.time.Clock()
 
     def setup_states(self, STATE_DICT, start_state):

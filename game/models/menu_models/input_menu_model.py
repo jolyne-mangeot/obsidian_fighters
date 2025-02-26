@@ -10,7 +10,7 @@ class Input_menu_model(Models_controller):
     """
     def __init__(self,
             margins : tuple, dialog : str,
-            color=(0,0,0), image=False):
+            color=(0,0,0), image=None):
         """
         Initializes the input menu model.
         """
@@ -21,8 +21,20 @@ class Input_menu_model(Models_controller):
         self.image = image
         self.pre_render()
     
+    def update_options(self,
+            margins=None, dialog=None,
+            color=None, image=None):
+        if margins != None:
+            self.from_left, self.from_top = margins
+        if dialog != None:
+            self.dialog = dialog
+        if color != None:
+            self.input_color = color
+        if image != None:
+            self.image = image
+        self.pre_render()
+    
     def pre_render(self):
-        Models_controller.__init__(self)
         self.rendered_input = self.pixel_font_menu_deselected.render(self.dialog + self.input, True, self.input_color)
         self.rendered_input_rect = self.rendered_input.get_rect(center=(self.from_left, self.from_top))
     

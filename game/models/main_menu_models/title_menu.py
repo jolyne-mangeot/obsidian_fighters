@@ -14,7 +14,6 @@ class Title_menu(
             placement of options
         """
         Models_controller.__init__(self)
-        Models_controller.init_in_game_settings()
         self.init_main_menu_display()
         self.init_title_menu_object()
         self.init_main_menues_sounds()

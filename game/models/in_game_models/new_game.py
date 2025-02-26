@@ -17,29 +17,40 @@ class New_game(
     """
     def __init__(self):
         Models_controller.__init__(self)
-        self.init_config()
         Pokedex.init_pokedex_data([
             self.POKEMON_DICT_PATH,
             self.TYPES_CHART_PATH,
             self.BATTLE_BIOMES_PATH
         ])
-
+        self.pokemon_starters = [
+            Pokedex.pokemon_dict["0001"],
+            Pokedex.pokemon_dict["0004"],
+            Pokedex.pokemon_dict["0007"]
+        ]
+        self.init_new_game_config()
+        self.init_new_game_display()
+        self.init_game_menu_sounds()
+    
     def update_in_game_settings(self):
-        pass
+        self.update_new_game_display()
+    
+    def init_new_game_config(self):
+        self.options_menu_event_dict : dict = {
+            "player_input" : self.get_event_player_input,
+            "pokemon_choice" : self.get_event_pokemon_choice
+        }
+        self.options_menu_draw_dict : dict = {
+            "player_input" : self.draw_player_input_menu,
+            "pokemon_choice" : self.draw_pokemon_choice_menu
+        }
 
     def startup(self):
         """
             iInitializes all menu-related data, including configuring the game,
             loading starter Pokémon, and setting the menu state.
         """
-        self.pokemon_starters = [
-            Pokedex.pokemon_dict["0001"],
-            Pokedex.pokemon_dict["0004"],
-            Pokedex.pokemon_dict["0007"]
-            ]
-        self.init_new_game_display()
-        self.init_game_menu_sounds()
-        self.music_channel.play(self.launch_menu_musics_dict["new_game"])
+        self.player_input.input = ""
+        self.music_channel.play(self.launch_menu_musics_dict["new_game"], -1)
         self.menu_state : str = "player_input"
 
     def update(self):

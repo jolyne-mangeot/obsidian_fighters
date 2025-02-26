@@ -143,22 +143,6 @@ class Game_menues_display:
         self.launch_menu_img=pg.transform.scale(
             self.launch_menu_img, (self.width,self.height)
         )
-        self.pokemon_frame_image=pg.image.load(
-            self.GRAPHICS_PATH+"/media/"+\
-            "pkmn frame.png"
-        )
-        self.pokemon_frame_image=pg.transform.scale(
-            self.pokemon_frame_image,
-            (self.width*0.2, self.width*0.2)
-        )
-        self.action_bg_img=pg.image.load(
-            self.GRAPHICS_PATH+"/media/"+\
-            "pkmn choice bg.png"
-        )
-        self.action_bg_img=pg.transform.scale(
-            self.action_bg_img,
-            (self.width,self.height)
-        )
         self.pokedex_background=pg.image.load(
             self.GRAPHICS_PATH+"/media/"+\
             "team select.png"
@@ -176,11 +160,6 @@ class Game_menues_display:
     def draw_pokedex_background(self):
         self.screen.blit(
             self.pokedex_background,(0,0)
-        )
-        
-    def draw_action_background(self):
-        self.screen.blit(
-            self.action_bg_img,(0,0)
         )
     
     def draw_pokeball_thrown(self):

@@ -16,6 +16,7 @@ class In_battle(
         """
         Models_controller.__init__(self)
         self.init_config()
+        self.init_in_battle_config()
         self.next = "launch_menu"
         self.back = "launch_menu"
 
@@ -70,7 +71,6 @@ class In_battle(
         self.remove_animation_done = False
 
         self.game_state = "start"
-        self.init_in_battle_config()
         self.music_channel.play(self.in_battle_musics["wild battle intro"])
 
         self.forced_switch = False

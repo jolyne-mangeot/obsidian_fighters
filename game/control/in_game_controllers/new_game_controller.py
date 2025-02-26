@@ -11,14 +11,7 @@ class New_game_controller:
         """
         if event.type == pg.QUIT:
             self.quit = True
-
-        match self.menu_state:
-            case "pokemon_choice":
-                self.get_event_pokemon_choice(event)
-                self.pokemon_choice.get_event_horizontal(event)
-            case "player_input":
-                self.get_event_player_input(event)
-                self.player_input.get_event_input(event)
+        self.options_menu_event_dict[self.menu_state](event)
 
     def get_event_pokemon_choice(self, event):
         """
@@ -34,7 +27,8 @@ class New_game_controller:
                 self.init_save_file()
                 self.next = "launch_menu"
                 self.done = True
-    
+        self.pokemon_choice.get_event_horizontal(event)
+
     def get_event_player_input(self, event):
         """
         Handles keypress events in the 'player_input' menu state.
@@ -49,3 +43,5 @@ class New_game_controller:
                     self.player_input.input != "":
                 self.menu_effects_channel.play(self.menues_sounds["confirm"])
                 self.menu_state = "pokemon_choice"
+        self.player_input.get_event_input(event)
+        
