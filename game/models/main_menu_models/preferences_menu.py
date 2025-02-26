@@ -4,8 +4,6 @@ from game.control.models_controller import Models_controller
 from game.views.main_menu_views.main_menues_display import Main_menues_display
 from game.views.main_menu_views.main_menues_sounds import Main_menues_sounds
 
-from game._all_paths_ import LANGUAGES_DICT, SCREEN_RESOLUTION_DICT
-
 class Preferences_menu(
     Models_controller, 
     Main_menues_display, Main_menues_sounds):
@@ -15,16 +13,21 @@ class Preferences_menu(
     """
     def __init__(self):
         Models_controller.__init__(self)
-        self.init_config()
         self.init_main_menu_display()
         self.init_main_menues_sounds()
+        self.settings_in_preferences = []
+        self.init_preferences_menu_objects()
+
+    def update_in_game_settings(self):
+        self.init_root_variables_main_menu()
+        self.pre_render_backgrounds_main_menues()
 
     def startup(self):
         """
             Initializes all menu-related data, loads settings, and prepares the menu display.
         """
         self.settings_in_preferences = self.settings.copy()
-        self.init_preferences_menu_object()
+        self.update_preferences_menu_objects()
 
     def update(self):
         """
@@ -62,7 +65,8 @@ class Preferences_menu(
                 self.menu_effects_channel.play(self.menues_sounds["confirm"])
                 self.save_settings(self.settings_in_preferences)
                 self.init_settings()
-                self.re_init_config()
+                self.init_config()
+                Models_controller.re_init_in_game_settings()
                 self.startup()
                 self.effects_channel.play(self.menues_sounds["save success"])
             elif pg.key.name(event.key) in self.left_keys:
@@ -88,8 +92,8 @@ class Preferences_menu(
         """
         OPTIONS = (("", self.settings_in_preferences['sfx_volume'], 'sfx_volume'),
                 ("", self.settings_in_preferences['music_volume'], 'music_volume'),
-                (LANGUAGES_DICT, self.settings_in_preferences['language'], 'language'),
-                (SCREEN_RESOLUTION_DICT, self.settings_in_preferences['screen_resolution'], 'screen_resolution'))
+                (self.LANGUAGES_DICT, self.settings_in_preferences['language'], 'language'),
+                (self.SCREEN_RESOLUTION_DICT, self.settings_in_preferences['screen_resolution'], 'screen_resolution'))
         index = self.preferences_menu.selected_index
 
         if index in (0,1):
@@ -123,7 +127,7 @@ class Preferences_menu(
         elif index == 3:
             self.settings_in_preferences['screen_resolution'] = options_list[selected_setting_index]
         
-        self.update_preferences_menu_object()
+        self.update_preferences_menu_objects()
     
     def draw(self):
         """

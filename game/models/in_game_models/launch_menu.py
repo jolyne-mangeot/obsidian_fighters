@@ -28,6 +28,9 @@ class Launch_menu(
         self.init_config()
         self.init_in_launch_config()
         self.init_game_menu_sounds()
+
+    def update_in_game_settings(self):
+        pass
     
     def init_in_launch_config(self):
         self.options_menu_event_dict = {

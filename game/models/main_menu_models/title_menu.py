@@ -14,11 +14,18 @@ class Title_menu(
             placement of options
         """
         Models_controller.__init__(self)
-        self.init_config()
+        Models_controller.init_in_game_settings()
         self.init_main_menu_display()
         self.init_title_menu_object()
         self.init_main_menues_sounds()
-        self.previous = "start"
+
+        self.previous : str = "start" 
+            # needed defined for music check during startup
+    
+    def update_in_game_settings(self):
+        self.init_root_variables_main_menu()
+        self.update_title_menu_objects()
+        self.pre_render_backgrounds_main_menues()
 
     def startup(self):
         """

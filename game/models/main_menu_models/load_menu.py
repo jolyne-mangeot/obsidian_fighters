@@ -16,16 +16,21 @@ class Load_menu(
             placement of options
         """
         Models_controller.__init__(self)
-        self.init_config()
         self.init_main_menu_display()
         self.init_main_menues_sounds()
+        self.player_saves_state = []
+        self.init_load_menu_objects()
+    
+    def update_in_game_settings(self):
+        self.init_root_variables_main_menu()
+        self.pre_render_backgrounds_main_menues()
 
     def startup(self):
         """
             initiates all menu-related data
         """
         self.player_saves_state = self.load_player_data()
-        self.init_load_menu_object()
+        self.update_load_menu_objects()
 
     def update(self):
         """
@@ -43,7 +48,11 @@ class Load_menu(
 
     def init_player_save(self):
         current_player = self.player_saves_state[self.load_menu.selected_index - 1]
-        Pokedex.init_pokedex_data()
+        Pokedex.init_pokedex_data([
+            self.POKEMON_DICT_PATH,
+            self.TYPES_CHART_PATH,
+            self.BATTLE_BIOMES_PATH
+        ])
         self.player_pokedex = Pokedex(current_player)
         Models_controller.player_pokedex = self.player_pokedex
 

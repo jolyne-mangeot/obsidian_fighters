@@ -10,7 +10,6 @@ class New_game_display(Game_menues_display):
         select their starter Pokémon and input their name.
     """
     def init_new_game_display(self):
-        self.display_init()
         self.__init_root_variables_new_game__()
         self.__init_menues_objects__()
         self.__init_pokemon_starters_mini__()
@@ -55,6 +54,22 @@ class New_game_display(Game_menues_display):
             mini_image = pg.image.load(self.GRAPHICS_PATH + "pokemon/" + pokemon["entry"] + "/mini.png")
             mini_image = pg.transform.scale(mini_image, (self.width*0.5, self.width*0.42))
             self.pokemon_starters_image.append(mini_image)
+
+    def draw_pokemon_frame(self, index):
+        pokemon_frame_rect = self.pokemon_frame_image.get_rect(
+            center=(self.width*0.25 * (index+1), self.height*0.43)
+        )
+        self.screen.blit(
+            self.pokemon_frame_image, pokemon_frame_rect
+        )
+
+    def draw_name_frame(self,x:int, y:int, width:int, height:int):
+        self.name_frame_img=pg.transform.scale(
+            self.pokemon_frame_image, (width,height)
+        )
+        self.screen.blit(
+            self.name_frame_img,(x,y)
+        )
 
     def draw(self):
         """

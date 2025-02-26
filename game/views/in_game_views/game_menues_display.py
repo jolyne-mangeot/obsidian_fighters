@@ -1,22 +1,17 @@
 import pygame as pg
 
-from game.views.display import Display
-
-class Game_menues_display(Display):
+class Game_menues_display:
     """
         This class handles the display of various game menus, initialization of in-game display elements, 
         and the loading of graphical assets like Pokémon images and combat screens.
     """
-    def display_init(self):
-        Display.__init__(self)
 
     def init_in_game_display(self):
         """
             Initializes the in-game display, root variables, and loads the graphics for both launch menus and Pokémon.
         """
-        Display.__init__(self)
         self._init_root_variables_in_game_()
-        self._load_graphics_pokemons_()
+        self._load_player_pokemons_()
 
     def _init_root_variables_in_game_(self):
         """
@@ -44,7 +39,7 @@ class Game_menues_display(Display):
             options.append(self.dialogs['back'])
         return options
 
-    def _load_graphics_pokemons_(self):
+    def _load_player_pokemons_(self):
         """
             Loads and scales the graphics for the Pokémon in the player's team, 
             including their back and mini images.
@@ -181,30 +176,6 @@ class Game_menues_display(Display):
     def draw_pokedex_background(self):
         self.screen.blit(
             self.pokedex_background,(0,0)
-        )
-    
-    def draw_pokemon_frame(self, index):
-        pokemon_frame_rect = self.pokemon_frame_image.get_rect(
-            center=(self.width*0.25 * (index+1), self.height*0.43)
-        )
-        self.screen.blit(
-            self.pokemon_frame_image, pokemon_frame_rect
-        )
-
-    def draw_name_frame(self,x:int, y:int, width:int, height:int):
-        self.name_frame_img=pg.transform.scale(
-            self.pokemon_frame_image, (width,height)
-        )
-        self.screen.blit(
-            self.name_frame_img,(x,y)
-        )
-
-    def draw_team_select_img(self):
-        self.team_select_img=pg.transform.scale(
-            self.team_select_img, (self.width,self.height)
-        )
-        self.screen.blit(
-            self.team_select_img,(0,0)
         )
         
     def draw_action_background(self):

@@ -18,7 +18,14 @@ class New_game(
     def __init__(self):
         Models_controller.__init__(self)
         self.init_config()
-        Pokedex.init_pokedex_data()
+        Pokedex.init_pokedex_data([
+            self.POKEMON_DICT_PATH,
+            self.TYPES_CHART_PATH,
+            self.BATTLE_BIOMES_PATH
+        ])
+
+    def update_in_game_settings(self):
+        pass
 
     def startup(self):
         """

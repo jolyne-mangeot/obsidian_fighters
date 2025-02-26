@@ -18,6 +18,9 @@ class In_battle(
         self.init_config()
         self.next = "launch_menu"
         self.back = "launch_menu"
+
+    def update_in_game_settings(self):
+        pass
     
     def init_in_battle_config(self):
         self.options_states_dict : dict = {

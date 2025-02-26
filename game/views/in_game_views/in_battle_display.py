@@ -1,6 +1,7 @@
 import pygame as pg
 
 from game.views.in_game_views.game_menues_display import Game_menues_display
+
 from game.models.menu_models.option_menu_model import Option_menu_model
 
 class In_battle_display(Game_menues_display):

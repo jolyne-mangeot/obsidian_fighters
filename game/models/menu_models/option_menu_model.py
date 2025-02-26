@@ -1,9 +1,8 @@
 import pygame as pg
 
-from game.views.display import Display
-from game.views.sounds import Sounds
+from game.control.models_controller import Models_controller
 
-class Option_menu_model(Display, Sounds):
+class Option_menu_model(Models_controller):
     """
         A class that represents an options menu model, inheriting from Display.   
     """
@@ -14,8 +13,6 @@ class Option_menu_model(Display, Sounds):
         """
          Initializes the menu with margins, a list of options, and optionally a next list.  
         """
-        Display.__init__(self)
-        Sounds.__init__(self)
         self.from_left, self.from_top, self.spacer = margins
         self.options = options
         self.next_list = next_list
@@ -46,31 +43,37 @@ class Option_menu_model(Display, Sounds):
             rendered_dialog["selected"].append((selected_render, selected_rect))
         self.rendered = rendered_dialog
 
-    def update_colors(self, deselected_color, selected_color=None, picked_color=None):
+    def update_options(self,
+            options=None, next_list=None, margins=None,
+            deselected_color=None, selected_color=None, 
+            picked_color=None, images=None):
         """
-            Updates the colors for deselected, selected, and picked options.
+            Updates the list of options and optionally the next list
         """
-        
-        self.deselected_color = deselected_color
-        
+        if options != None:
+            self.options = options
+        if next_list != None:
+            self.next_list = next_list
+
+        if margins != None:
+            self.from_left, self.from_top, self.spacer = margins
+
+        if deselected_color != None:
+            self.deselected_color = deselected_color
+
         if selected_color != None:
             self.selected_color = selected_color
-        else:
+        elif deselected_color != None:
             self.selected_color = deselected_color
 
         if picked_color != None:
             self.picked_color = picked_color
-        else:
+        elif deselected_color != None:
             self.picked_color = deselected_color
-        self.pre_render()
 
-    def update_options(self, options, next_list = None, images=None):
-        """
-            Updates the list of options and optionally the next list
-        """
-        self.options = options
-        self.next_list = next_list
-        self.images=images
+        if images != None:
+            self.images=images
+
         self.pre_render()
 
     def draw_vertical_options(self):
@@ -159,8 +162,6 @@ class Option_menu_model(Display, Sounds):
                 self.screen.blit(selected_render[0], selected_render[1])
             else:
                 self.screen.blit(option[0],option[1])
-
-
 
     def draw_picked_list_options(self):
         """

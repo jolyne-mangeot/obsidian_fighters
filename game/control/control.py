@@ -8,17 +8,19 @@ class Control(Settings):
         Control class manages game states, settings, and event loops.
         It extends Settings and initializes essential configurations for the game.
     """
-
     def init_settings(self):
         """
             load game settings and init essential data related to Pygame
         """
         Control.settings : dict = self.load_settings()
-        Control.dialogs : dict = self.load_language(Control.settings['language'])
+        Control.dialogs : dict = self.load_language(Control.settings["LANGUAGE_DIALOG_PATH"], Control.settings['language'])
+
         self.caption_choice : str = random.choice(Control.dialogs["caption list"])
-        self.title= pg.display.set_caption(self.caption_choice)
-        self.icon=pg.image.load("game/assets/graphics/media/mini.png")
+        self.title = pg.display.set_caption(self.caption_choice)
+
+        self.icon = pg.image.load("game/assets/graphics/media/mini.png")
         pg.display.set_icon(self.icon)
+
         self.done : bool = False
 
     def init_config(self):
@@ -26,17 +28,13 @@ class Control(Settings):
             Initialize configuration settings such as screen resolution, 
             Pygame display, and clock.
         """
-        self.settings : dict = Control.settings
-        self.dialogs : dict = Control.dialogs
-        self.__dict__.update(**Control.settings)
-        self.screen_width, self.screen_height = map(int, self.settings['screen_resolution'].split(","))
-        self.screen = pg.display.set_mode((self.screen_width, self.screen_height))
-        self.screen_rect = self.screen.get_rect()
-        self.clock = pg.time.Clock()
-
-    def re_init_config(self):
-        for menu in Control.STATE_DICT.values():
-            menu.__init__()
+        Control.screen_width, Control.screen_height = map(
+            int, Control.settings["screen_resolution"].split(",")
+        )
+        Control.screen = pg.display.set_mode(
+            (self.screen_width, self.screen_height)
+        )
+        Control.clock = pg.time.Clock()
 
     def setup_states(self, STATE_DICT, start_state):
         """
@@ -93,7 +91,8 @@ class Control(Settings):
             updating the pygame display
         """
         while not self.done:
-            self.delta_time = self.clock.tick(self.fps)/1000
+            self.delta_time =\
+                self.clock.tick(Control.settings["fps"]) / 1000
             self.event_loop()
             self.update()
             pg.display.update()

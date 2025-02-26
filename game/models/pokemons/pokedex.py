@@ -1,7 +1,6 @@
 import json
 
 from game.models.pokemons.pokemons import Pokemon
-from game._all_paths_ import POKEMON_DICT_PATH, TYPES_CHART_PATH, BATTLE_BIOMES_PATH
 
 class Pokedex:
     """
@@ -10,6 +9,7 @@ class Pokedex:
     """
     pokemon_dict = {}
     types_chart = {}
+
     def __init__(self, player_data):
         """
             Initializes the Pokedex instance with player data and sets up the player's team.
@@ -20,16 +20,16 @@ class Pokedex:
         self.add_entry(self.player_team)
         self.get_average_level()
 
-    def init_pokedex_data():
+    def init_pokedex_data(game_files):
         """
             Static method to initialize Pokedex data, such as Pokémon details, type charts, and battle biomes.
         """
-        with open(POKEMON_DICT_PATH, "r") as file:
+        with open(game_files[0], "r") as file:
             Pokedex.pokemon_dict = json.load(file)
             Pokemon.pokemon_dict = Pokedex.pokemon_dict
-        with open(TYPES_CHART_PATH, "r") as file:
+        with open(game_files[1], "r") as file:
             Pokedex.types_chart = json.load(file)
-        with open(BATTLE_BIOMES_PATH,"r") as file:
+        with open(game_files[2],"r") as file:
             Pokedex.battle_biomes = json.load(file)
     
     def add_entry(self, enemy_team):
