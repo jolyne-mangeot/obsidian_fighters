@@ -2,6 +2,7 @@ import pygame as pg
 
 from game.control.models_controller import Models_controller
 from game.control.in_game_controllers.new_game_controller import New_game_controller
+from game.views.in_game_views.game_menues_display import Game_menues_display
 from game.views.in_game_views.new_game_display import New_game_display
 from game.views.in_game_views.game_menues_sounds import Game_menues_sounds
 
@@ -11,17 +12,13 @@ pg.font.init()
 
 class New_game(
     Models_controller, New_game_controller,
-    New_game_display, Game_menues_sounds):
+    Game_menues_display, New_game_display,
+    Game_menues_sounds):
     """
         Initializes the New_game class by calling the constructors of parent classes.
     """
     def __init__(self):
         Models_controller.__init__(self)
-        Pokedex.init_pokedex_data([
-            self.POKEMON_DICT_PATH,
-            self.TYPES_CHART_PATH,
-            self.BATTLE_BIOMES_PATH
-        ])
         self.pokemon_starters = [
             Pokedex.pokemon_dict["0001"],
             Pokedex.pokemon_dict["0004"],
@@ -69,22 +66,26 @@ class New_game(
         """
         Creates a save file containing the player's name, starter Pokémon, and initial stats.
         """
-        self.chosen_pokemon = "000" + str(self.pokemon_choice.selected_index*3 + 1)
+        self.chosen_pokemon = self.pokemon_starters[
+            self.pokemon_choice.selected_index
+        ].entry
         current_player : dict = {
-                    "player" : self.player_input.input,
-                    "encounters" : {
-                        "done" : 0,
-                        "won" : 0,
-                        "lost" : 0
-                    },
-                    "pokedex" : [
-                        
-                    ],
-                    "active_team" : {
-                        "pokemon_1" : {
-                            "entry" : self.chosen_pokemon,
-                            "experience_points" : 125
-                        }
-                    }}
+            "player" : self.player_input.input,
+            "encounters" : {
+                "done" : 0,
+                "won" : 0,
+                "lost" : 0
+            },
+            "pokedex" : [
+                self.chosen_pokemon
+            ],
+            "active_team" : {
+                "pokemon_1" : {
+                    "entry" : self.chosen_pokemon,
+                    "experience_points" : 125
+                }
+            }
+        }
         self.player_pokedex = Pokedex(current_player)
         Models_controller.player_pokedex = self.player_pokedex
+        Game_menues_display.init_in_game_display()

@@ -4,6 +4,8 @@ from game.control.models_controller import Models_controller
 from game.views.main_menu_views.main_menues_display import Main_menues_display
 from game.views.main_menu_views.main_menues_sounds import Main_menues_sounds
 
+from game.views.in_game_views.game_menues_display import Game_menues_display
+
 from game.models.pokemons.pokedex import Pokedex
 
 class Load_menu(
@@ -45,16 +47,6 @@ class Load_menu(
             cleans up all menu related data
         """
         pass
-
-    def init_player_save(self):
-        current_player = self.player_saves_state[self.load_menu.selected_index - 1]
-        Pokedex.init_pokedex_data([
-            self.POKEMON_DICT_PATH,
-            self.TYPES_CHART_PATH,
-            self.BATTLE_BIOMES_PATH
-        ])
-        self.player_pokedex = Pokedex(current_player)
-        Models_controller.player_pokedex = self.player_pokedex
 
     def get_event(self, event):
         """
@@ -103,3 +95,11 @@ class Load_menu(
         self.draw_load_screen()
         self.blit_dialog(self.dialogs["save select"], self.width*0.032,self.width*0.5,self.height*0.2,"midbottom", (0,0,0),True)
         self.load_menu.draw_vertical_options()
+
+    def init_player_save(self):
+        current_player = self.player_saves_state[
+            self.load_menu.selected_index - 1
+        ]
+        self.player_pokedex = Pokedex(current_player)
+        Models_controller.player_pokedex = self.player_pokedex
+        Game_menues_display.init_in_game_display()

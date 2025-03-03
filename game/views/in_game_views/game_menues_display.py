@@ -1,24 +1,81 @@
 import pygame as pg
 
+from game.control.models_controller import Models_controller
+
 class Game_menues_display:
     """
         This class handles the display of various game menus, initialization of in-game display elements, 
         and the loading of graphical assets like Pokémon images and combat screens.
     """
-
-    def init_in_game_display(self):
+    @classmethod
+    def init_in_game_display(cls):
         """
             Initializes the in-game display, root variables, and loads the graphics for both launch menus and Pokémon.
         """
-        self._init_root_variables_in_game_()
-        self._load_player_pokemons_()
+        cls.load_in_game_assets()
+    
+    @classmethod
+    def load_in_game_assets(cls):
+        cls.in_game_assets_dict : dict = {
+            "pokedex_mini_images" : cls.load_pokedex_mini_images(),
+            "battle_biomes_box" : cls.load_battle_biomes_images()
+        }
+        cls.load_team_assets()
+    
+    @classmethod
+    def load_team_assets(cls):
+        Game_menues_display.in_game_assets_dict.update({
+            "team_mini_images" : cls.load_manage_team_mini_images(),
+            "team_back_image" : cls.load_player_pokemons()
+        })
 
-    def _init_root_variables_in_game_(self):
+    @classmethod
+    def load_manage_team_mini_images(cls) -> list:
+        mini_images : list = []
+        for pokemon in Models_controller.player_pokedex.player_team:
+            mini_image = cls.in_game_assets_dict[
+                "pokedex_mini_images"
+            ][
+                Models_controller.player_pokedex.pokedex.index(pokemon.entry)
+            ]
+            mini_images.append(mini_image)
+        return mini_images
+
+    @staticmethod
+    def load_player_pokemons() -> list:
         """
-            Initializes root variables such as image sizes for active and mini Pokémon.
+            Loads and scales the graphics for the Pokémon in the player's team, 
+            including their back images.
         """
-        self.active_pokemon_image_size : tuple = (self.width*0.3, self.width*0.3)
-        self.mini_image_size : tuple = (self.width*0.21, self.width*0.2)
+        back_images : list = []
+        for pokemon in Models_controller.player_pokedex.player_team:
+            back_image = pg.image.load(
+                Models_controller.GRAPHICS_PATH + "pokemon/" +\
+                pokemon.entry + "/back.png"
+            )
+            back_images.append(back_image)
+        return back_images
+
+    @staticmethod
+    def load_pokedex_mini_images() -> list:
+        mini_images : list = []
+        for pokemon in Models_controller.player_pokedex.pokedex:
+            mini_image = pg.image.load(
+                Models_controller.GRAPHICS_PATH +"pokemon/"+pokemon+"/mini.png"
+            )
+            mini_images.append(mini_image)
+        return mini_images
+
+    @staticmethod
+    def load_battle_biomes_images() -> list:
+        images : list = []
+        for biome in list(Models_controller.player_pokedex.battle_biomes.keys()):
+            image = pg.image.load(
+                Models_controller.GRAPHICS_PATH+"biomes variants/"+\
+                "launch_" + biome + "_box.png"
+            )
+            images.append(image)
+        return images
 
     def init_render_option_team(self, team, forced_switch=False, team_full=False, menu="in_battle"):
         """
@@ -39,17 +96,6 @@ class Game_menues_display:
             options.append(self.dialogs['back'])
         return options
 
-    def _load_player_pokemons_(self):
-        """
-            Loads and scales the graphics for the Pokémon in the player's team, 
-            including their back and mini images.
-        """
-        for pokemon in self.player_pokedex.player_team:
-            back_image = pg.image.load(self.GRAPHICS_PATH + "pokemon/" + pokemon.entry + "/back.png")
-            pokemon.back_image = pg.transform.scale(back_image, self.active_pokemon_image_size)
-            mini_image = pg.image.load(self.GRAPHICS_PATH + "pokemon/" + pokemon.entry + "/mini.png")
-            pokemon.mini_image = pg.transform.scale(mini_image, self.mini_image_size)
-    
     def _load_graphics_combat_(self):
         self.pokemon_ground_img=pg.image.load(
             self.GRAPHICS_PATH+"biomes variants/"+\
@@ -123,45 +169,21 @@ class Game_menues_display:
             pokemon.front_image = pg.transform.scale(front_image, self.enemy_pokemon_image_size)
 
     def load_evolution_combat(self):
-        back_image = pg.image.load(self.GRAPHICS_PATH + "pokemon/" + self.battle.active_pokemon.entry + "/back.png")
-        self.battle.active_pokemon.back_image = pg.transform.scale(back_image, self.active_pokemon_image_size)
-        mini_image = pg.image.load(self.GRAPHICS_PATH + "pokemon/" + self.battle.active_pokemon.entry + "/mini.png")
-        self.battle.active_pokemon.mini_image = pg.transform.scale(mini_image, self.mini_image_size)
-
-    def _load_graphics_launch_menues_(self):
-        self.map_menu_image=pg.image.load(
-            self.GRAPHICS_PATH+"biomes variants/"+\
-            "map_screen_background.jpg"
+        back_image = pg.image.load(
+            self.GRAPHICS_PATH + "pokemon/" +\
+            self.battle.active_pokemon.entry + "/back.png"
         )
-        self.map_menu_image=pg.transform.scale(
-            self.map_menu_image, (self.width, self.height)
-        )
-        self.launch_menu_img=pg.image.load(
-            self.GRAPHICS_PATH+"/media/"+\
-            "launch screen.png"
-        )
-        self.launch_menu_img=pg.transform.scale(
-            self.launch_menu_img, (self.width,self.height)
-        )
-        self.pokedex_background=pg.image.load(
-            self.GRAPHICS_PATH+"/media/"+\
-            "team select.png"
-        )
-        self.pokedex_background=pg.transform.scale(
-            self.pokedex_background,
-            (self.width, self.height)
-        )
-
-    def draw_launch_menu(self):
-        self.screen.blit(
-            self.launch_menu_img,(0,0)
-    )
-    
-    def draw_pokedex_background(self):
-        self.screen.blit(
-            self.pokedex_background,(0,0)
+        self.battle.active_pokemon.back_image = pg.transform.scale(
+            back_image, 
+            self.active_pokemon_image_size
         )
     
+    def draw_action_background(self):
+        self.screen.blit(
+            self.action_bg_img,
+            (0,0)
+        )
+
     def draw_pokeball_thrown(self):
         self.screen.blit(
             self.pokeball_img,

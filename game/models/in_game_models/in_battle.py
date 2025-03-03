@@ -2,35 +2,42 @@ import pygame as pg
 import random
 
 from game.control.models_controller import Models_controller
+from game.control.in_game_controllers.in_battle_controller import In_battle_controller
+from game.views.in_game_views.game_menues_display import Game_menues_display
 from game.views.in_game_views.in_battle_display import In_battle_display
 from game.views.in_game_views.game_menues_sounds import Game_menues_sounds
-from game.control.in_game_controllers.in_battle_controller import In_battle_controller
 
 class In_battle(
     Models_controller, In_battle_controller, 
-    In_battle_display, Game_menues_sounds):
+    Game_menues_display, In_battle_display,
+    Game_menues_sounds):
 
     def __init__(self):
         """
         Initializes the battle state, including menu controllers and battle variables.
         """
         Models_controller.__init__(self)
-        self.init_config()
         self.init_in_battle_config()
-        self.next = "launch_menu"
-        self.back = "launch_menu"
 
     def update_in_game_settings(self):
         pass
     
     def init_in_battle_config(self):
-        self.options_states_dict : dict = {
+        self.options_menu_event_dict : dict = {
             "battle_stage": self.get_event_battle_stage,
             "select_attacks" : self.get_event_battle_attack_menu,
             "display_items": self.get_event_display_items,
             "display_team": self.get_event_display_team,
             "select_pokemon_confirm": self.get_event_select_pokemon_confirm,
             "run_away": self.get_event_run_away,
+        }
+        self.options_menu_draw_dict : dict = {
+            "battle_stage": "",
+            "select_attacks": "",
+            "display_items": "",
+            "display_team": "",
+            "select_pokemon_confirm": "",
+            "run_away": "" 
         }
         self.game_state_dict : dict = {
             "start": self.start_game_scene,
@@ -343,8 +350,8 @@ class In_battle(
     def leave_battle(self, victory):
         self.battle.check_lost_pokemons()
         if victory:
-            self.battle.player_pokedex.add_entry(self.battle.enemy_team)
-            self.battle.player_pokedex.add_entry(self.battle.player_team)
+            for pokemon in zip(self.battle.enemy_team, self.battle.player_team):
+                self.battle.player_pokedex.add_entry(pokemon)
             self.battle.player_pokedex.encounters["won"] +=1
         else:
             self.battle.player_pokedex.encounters["lost"] +=1

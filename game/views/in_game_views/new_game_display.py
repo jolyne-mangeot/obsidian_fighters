@@ -1,10 +1,9 @@
 import pygame as pg
 
-from game.views.in_game_views.game_menues_display import Game_menues_display
 from game.models.menu_models.option_menu_model import Option_menu_model
 from game.models.menu_models.input_menu_model import Input_menu_model
 
-class New_game_display(Game_menues_display):
+class New_game_display:
     """
         This class is responsible for displaying the New Game screen where the player can 
         select their starter Pokémon and input their name.
@@ -24,9 +23,6 @@ class New_game_display(Game_menues_display):
         Initializes root variables specifically for the New Game screen, such as positions
         for player input and Pokémon choice.
         """
-
-        self._init_root_variables_in_game_()
-        
         self.player_input_variables : tuple = (
             self.width*0.5, self.height*0.5
         )

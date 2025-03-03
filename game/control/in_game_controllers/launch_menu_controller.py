@@ -10,21 +10,15 @@ class Launch_menu_controller:
         Updates the menu options based on the current menu state.
         """
         self.menu_state = menu_state
-        match self.menu_state:
-            case "manage_team":
-                self.manage_team_menu.update_options(
-                    self.init_render_option_team(self.player_pokedex.player_team, True),
-                    images=self.load_manage_team_mini_images()
-                )
-                self.manage_team_menu.pre_render()
-                self.manage_team_menu.picked_index = None
-            case "save":
-                self.save_menu.selected_index = 0
-            case "save_confirm" | "quit" | "delete_save" | "launch_battle_confirm":
-                self.confirm_action_menu.selected_index = 1
-            case "main_launch_menu" | _:
-                self.main_launch_menu.selected_index = 0
-    
+
+        self.main_launch_menu.selected_index = 0
+
+        self.manage_team_menu.selected_index = 0
+        self.manage_team_menu.picked_index = None
+
+        self.save_menu.selected_index = 0
+        self.confirm_action_menu.selected_index = 1
+
     def check_game_status(self):
         if len(self.player_pokedex.player_team) == 0:
             return "lost_game"
@@ -92,7 +86,7 @@ class Launch_menu_controller:
                         self.manage_team_menu.picked_index,
                         self.manage_team_menu.selected_index
                     )
-                    self.update_options("manage_team")
+                    self.update_manage_team_menu_object()
                     self.manage_team_menu.picked_index = None
         self.manage_team_menu.get_event_vertical(event)
     

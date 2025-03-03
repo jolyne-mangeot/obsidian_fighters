@@ -1,15 +1,15 @@
 {
     "caption list" : [
         "PAS Digimon",
-        "Tu pensais que c'etait Pokemon, mais c'est moi! DIO!!!",
-        "Est-ce Pokemon ?",
-        "Pokeballs à l'infini~",
+        "Tu pensais que c'etait Pokémon, mais c'est moi! DIO!!!",
+        "Est-ce Pokémon ?",
+        "Pokéballs à l'infini~",
         "Esclavagisme d'animaux, bravo",
-        "Le Pokemon des plus legaux",
+        "Le jeu Pokémon des plus légaux",
         "Nintendo ne porte pas plainte, s'il te plait",
-        "Si tu vois ce message tu dois donner 4 etoiles",
+        "Si tu vois ce message tu dois donner 4 étoiles",
         "10 pompes pour chaque combat perdu",
-        "Pokemon"
+        "Pokémon"
     ],
     "title" : "POKÉMON",
     "play" : "JOUER",
@@ -17,9 +17,9 @@
     "quit" : "QUITTER",
     "back" : "RETOUR",
     "sfx volume" : "VOLUME DES EFFETS : ",
-    "music volume" : "VOLUME DE MUSIQUE : ",
+    "music volume" : "VOLUME DES MUSIQUES : ",
     "language" : "LANGUE : ",
-    "screen resolution" : "RESOLUTION : ",
+    "screen resolution" : "RÉSOLUTION : ",
     "apply" : "APPLIQUER",
 
     "new game" : "Nouvelle partie",
@@ -31,9 +31,9 @@
     "no" : "non",
     "?" : " ?",
     "launch" : "Commencer le combat",
-    "manage team" : "Gerer l'equipe",
+    "manage team" : "Gérer l'equipe",
     "pokedex" : "Consulter le pokedex",
-    "focused pokemon" : "Pokemon suivi : ",
+    "focused pokemon" : "Pokémon suivi : ",
     "save" : "Sauvegarder",
 
     "confirm save": "ECRASER LA SAUVEGARDE ?",

@@ -4,6 +4,7 @@ import random
 
 from game.control.models_controller import Models_controller
 from game.control.in_game_controllers.launch_menu_controller import Launch_menu_controller
+from game.views.in_game_views.game_menues_display import Game_menues_display
 from game.views.in_game_views.launch_menu_display import Launch_menu_display
 from game.views.in_game_views.game_menues_sounds import Game_menues_sounds
 
@@ -12,24 +13,24 @@ from game.models.pokemons.battle import Battle
 
 class Launch_menu(
     Models_controller, Launch_menu_controller,
-    Launch_menu_display, Game_menues_sounds):
+    Game_menues_display, Launch_menu_display,
+    Game_menues_sounds):
     """
         The Launch_menu class manages the game's launch menu.
         It handles menu initialization, updates, event handling, and launching battles.
     """
-    
     def __init__(self):
         """
             Initializes the Launch_menu with default values.
         """
         Models_controller.__init__(self)
-        self.back = "title_menu"
         self.focused_pokemon = None
-        self.init_config()
         self.init_in_launch_config()
+        self.init_launch_menu_display()
         self.init_game_menu_sounds()
 
     def update_in_game_settings(self):
+        # self.update_launch_menu_display()
         pass
     
     def init_in_launch_config(self):
@@ -60,7 +61,7 @@ class Launch_menu(
         """
            Initializes all menu-related configurations and settings.
         """
-        self.init_launch_menu_display()
+        self.update_launch_menu_display()
         self.check_game_status()
         self.update_options("main_launch_menu")
         now_time = datetime.now()
@@ -101,6 +102,7 @@ class Launch_menu(
                 enemy_entry = self.focused_pokemon
                 self.focused_found = True
                 self.focused_pokemon = None
+
         encounter = {
             "pokedex" : [],
             "active_team": {
@@ -113,6 +115,12 @@ class Launch_menu(
             }
         }
         enemy_team = Pokedex(encounter)
+
         if not self.focused_found:
             enemy_team.check_evolutions()
-        Models_controller.new_battle = Battle(self.player_pokedex, enemy_team, Pokedex.types_chart, Pokedex.pokemon_dict, battle_biome, wild)
+
+        Models_controller.new_battle = Battle(
+            self.player_pokedex, enemy_team, 
+            Pokedex.types_chart, Pokedex.pokemon_dict, 
+            battle_biome, wild
+        )

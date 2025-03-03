@@ -1,9 +1,9 @@
 {
     "fps": 60,
-    "sfx_volume": 10,
-    "music_volume": 10,
+    "sfx_volume": 7,
+    "music_volume": 7,
     "language": "fr-fr",
-    "screen_resolution": "1024,768",
+    "screen_resolution": "800,600",
     "confirm_keys": [
         "return",
         "space",
@@ -52,8 +52,8 @@
         "game/saves/save_3_pokedex.json"
     ],
     "LANGUAGES_DICT": {
-        "fr-fr": "FRANCAIS",
-        "en-en": "ENGLISH"
+        "fr-fr": "Fran\u00e7ais",
+        "en-en": "English"
     },
     "SCREEN_RESOLUTION_DICT": {
         "640,480": "640 x 480",

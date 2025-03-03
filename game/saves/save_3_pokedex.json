@@ -11,7 +11,15 @@
     },
     "active_team": {
         "pokemon_1": {
-            "entry": "0001",
+            "entry": "0005",
+            "experience_points": 999999
+        },
+        "pokemon_2": {
+            "entry": "0012",
+            "experience_points": 999999
+        },
+        "pokemon_3": {
+            "entry": "0034",
             "experience_points": 999999
         }
     }

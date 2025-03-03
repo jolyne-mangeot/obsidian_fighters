@@ -1,10 +1,8 @@
 import pygame as pg
 
-from game.views.in_game_views.game_menues_display import Game_menues_display
-
 from game.models.menu_models.option_menu_model import Option_menu_model
 
-class In_battle_display(Game_menues_display):
+class In_battle_display:
     """
         This class represents the display settings and behavior during a battle in the game.
     """
@@ -13,7 +11,6 @@ class In_battle_display(Game_menues_display):
         Initializes the battle display
         """
         self.wild = wild
-        self.init_in_game_display()
         self._load_graphics_combat_()
         self.__init_root_variables_in_battle__()
         self._enemy_pokemon_load_()
@@ -24,8 +21,6 @@ class In_battle_display(Game_menues_display):
             Sets up the root variables used specifically for battle, such as menu dimensions,
             Pokémon image sizes, coordinates for displaying health bars, names, and levels.
         """
-        self._init_root_variables_in_game_()
-
         self.battle_stage_menu_variables : tuple = (
             self.width*0.8, self.height*0.706, self.height*0.06
         )
@@ -39,6 +34,9 @@ class In_battle_display(Game_menues_display):
             self.width*0.024,
             self.width*0.06, self.height*0.76,
             "bottomleft", (255,255,255), True
+        )
+        self.active_pokemon_image_size : tuple = (
+            self.width*0.3, self.width*0.3
         )
         self.enemy_pokemon_image_size : tuple = (
             self.width*0.2, self.width*0.2

@@ -120,6 +120,10 @@ class Models_controller(Control, abc.ABC):
             text_rect = text.get_rect(bottomleft=(from_left,from_top))
         self.screen.blit(text, text_rect)
 
+    def init_render_option_confirm_choice(self):
+        options = [self.dialogs["yes"], self.dialogs["no"]]
+        return options
+
     # @abc.abstractmethod
     # def startup(self):
     #     pass

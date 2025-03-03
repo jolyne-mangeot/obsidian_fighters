@@ -9,7 +9,7 @@ class Option_menu_model(Models_controller):
     def __init__(self, 
             margins, options, next_list=None, 
             deselected_color=(0,0,0), selected_color=(0,0,0), 
-            picked_color=(255,0,0), images=False):
+            picked_color=(255,0,0), images=None):
         """
          Initializes the menu with margins, a list of options, and optionally a next list.  
         """
@@ -115,7 +115,7 @@ class Option_menu_model(Models_controller):
                     self.from_top + (index-self.selected_index)*self.spacer
                 )
                 self.screen.blit(option[0],option[1])
-            if bool(self.images) and\
+            if self.images != None and\
                   self.selected_index-3 < index < self.selected_index+3 :
                 self.screen.blit(
                     self.images[index],
@@ -212,7 +212,7 @@ class Option_menu_model(Models_controller):
                         self.from_top + (index-self.selected_index)*self.spacer
                     )
                     self.screen.blit(option[0],option[1])
-            if bool(self.images) and\
+            if self.images != None and\
                   self.selected_index-3 < index < self.selected_index+3 :
                 self.screen.blit(
                     self.images[index],

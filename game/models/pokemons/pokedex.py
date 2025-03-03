@@ -17,34 +17,31 @@ class Pokedex:
         self.save = False
         self.__dict__.update(**player_data)
         self.init_player_team()
-        self.add_entry(self.player_team)
         self.get_average_level()
 
-    def init_pokedex_data(game_files):
+    def init_pokedex_data(game_files_paths):
         """
             Static method to initialize Pokedex data, such as Pokémon details, type charts, and battle biomes.
         """
-        with open(game_files[0], "r") as file:
+        with open(game_files_paths[0], "r") as file:
             Pokedex.pokemon_dict = json.load(file)
             Pokemon.pokemon_dict = Pokedex.pokemon_dict
-        with open(game_files[1], "r") as file:
+        with open(game_files_paths[1], "r") as file:
             Pokedex.types_chart = json.load(file)
-        with open(game_files[2],"r") as file:
+        with open(game_files_paths[2],"r") as file:
             Pokedex.battle_biomes = json.load(file)
     
-    def add_entry(self, enemy_team):
-        for pokemon in enemy_team:
-            if pokemon.entry not in self.pokedex:
-                self.pokedex.append(pokemon.entry)
-                for pokemon in self.pokedex:
-                    pokemon = int(pokemon)
-                self.pokedex.sort()
-                for pokemon in self.pokedex:
-                    pokemon = str(pokemon)
-                    while len(pokemon) < 4:
-                        pokemon = "0" + pokemon
+    def add_entry(self, new_pokemon):
+        if new_pokemon.entry not in self.pokedex:
+            self.pokedex.append(new_pokemon.entry)
+            for pokemon in self.pokedex:
+                pokemon = int(pokemon)
+            self.pokedex.sort()
+            for pokemon in self.pokedex:
+                pokemon = str(pokemon)
+                while len(pokemon) < 4:
+                    pokemon = "0" + pokemon
 
-    
     def compress_data(self, chosen_save : str) -> dict:
         """
              Compress player data into a dictionary, including team data and encounter history.
@@ -81,6 +78,7 @@ class Pokedex:
             pokemon = self.add_pokemon(self.active_team[pokemon_data]["entry"],\
                                        self.active_team[pokemon_data]["experience_points"])
             self.player_team.append(pokemon)
+            self.add_entry(pokemon)
     
     def catch_pokemon(self, entry, experience_points=0):
         """

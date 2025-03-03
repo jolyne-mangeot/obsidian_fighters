@@ -73,9 +73,7 @@ class In_battle_controller:
 
     def get_event(self, event):
         if self.game_state == "player_turn":
-            self.options_states_dict[self.options_states](event)
-        else:
-            pass
+            self.options_menu_event_dict[self.options_states](event)
 
     def get_event_battle_stage(self, event):
         """
